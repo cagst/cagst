@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cagst</groupId>
+	<artifactId>cagst-common-service</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>CAGST Common Service Objects</name>
+	<description>This defines some common service objects that can be used by any CAGST Solution.</description>
+	<inceptionYear>2012</inceptionYear>
+	<packaging>jar</packaging>
+	<organization>
+		<name>CAGST Solutions</name>
+		<url>http://www.cagst.com/solutions/</url>
+	</organization>
+	<parent>
+		<groupId>com.cagst</groupId>
+		<artifactId>cagst-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<dependencies>
+		<!-- CAGST Common Domain Dependencies -->
+		<dependency>
+			<groupId>com.cagst</groupId>
+			<artifactId>cagst-common-domain</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- CAGST Common Database Dependencies -->
+		<dependency>
+			<groupId>com.cagst</groupId>
+			<artifactId>cagst-common-db</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Apache Commons Dependencies -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Joda Time Dependencies -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	
+		<!-- Log 4J Dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>integration</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Logback Dependencies -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Spring Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Test Dependencies -->
+		
+		<!-- HSQL DB Dependencies -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- CAGST Test Dependencies -->
+		<dependency>
+			<groupId>com.cagst</groupId>
+			<artifactId>cagst-test</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- JUnit Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Mockito Dependencies -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
