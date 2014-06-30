@@ -1,5 +1,9 @@
 package com.cagst.common.web.servlet.tags;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.util.HtmlUtils;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -37,5 +41,28 @@ public final class StaticResourceAssistant {
 			// massage into a null value
 			return null;
 		}
+	}
+
+	/**
+	 * Retrieves the string associated with the key passed in.
+	 *
+	 * @param key
+	 *          The {@link String} key to the resource.
+	 * @param request
+	 *          The {@link HttpServletRequest}
+	 *
+	 * @return The resource or <code>null</code> if the resource is not found.
+	 */
+	public static String getString(final String key, final HttpServletRequest request) {
+		String location = getString(key);
+
+		if (StringUtils.startsWith(location, "/") && !StringUtils.startsWith(location, "//")) {
+			// Locally hosted static content in the app
+			// needs to have the context path appended
+			String contextPath = request.getContextPath();
+			location = contextPath + location;
+		}
+
+		return HtmlUtils.htmlEscape(location);
 	}
 }

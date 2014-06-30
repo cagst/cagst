@@ -49,12 +49,7 @@ public final class CGTDateTimeUtils {
 	 *           set
 	 */
 	public static DateTime getDateTime(final ResultSet rs, final int column) throws SQLException {
-		Timestamp ts = rs.getTimestamp(column);
-		if (ts != null) {
-			return new DateTime(ts);
-		}
-
-		return null;
+		return getDateTime(rs.getTimestamp(column));
 	}
 
 	/**
@@ -73,7 +68,18 @@ public final class CGTDateTimeUtils {
 	 *           set
 	 */
 	public static DateTime getDateTime(final ResultSet rs, final String column) throws SQLException {
-		Timestamp ts = rs.getTimestamp(column);
+		return getDateTime(rs.getTimestamp(column));
+	}
+
+	/**
+	 * Returns the {@link DateTime} from the specified {@link Timestamp}.
+	 *
+	 * @param ts
+	 * 				The {@link Timestamp} to retrieve as a {@link DateTime}.
+	 *
+	 * @return
+	 */
+	public static DateTime getDateTime(final Timestamp ts) {
 		if (ts != null) {
 			return new DateTime(ts);
 		}

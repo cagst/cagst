@@ -3,22 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.cagst</groupId>
-	<artifactId>cagst-test</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<name>CAGST Common Testing Components</name>
-	<description>CAGST Common Testing Components</description>
-	<inceptionYear>2012</inceptionYear>
-	<packaging>jar</packaging>
-	<organization>
-		<name>CAGST Solutions</name>
-		<url>http://www.cagst.com/solutions/</url>
-	</organization>
+
 	<parent>
 		<groupId>com.cagst</groupId>
 		<artifactId>cagst-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+
+	<artifactId>cagst-test</artifactId>
+	<name>CAGST Common Testing Components</name>
+	<inceptionYear>2012</inceptionYear>
+	<packaging>jar</packaging>
+
 	<dependencies>
 		<!-- Apache Commons Dependencies -->
 		<dependency>
