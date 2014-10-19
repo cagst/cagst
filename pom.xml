@@ -42,6 +42,15 @@
     <url>https://github.com/cagst/cagst</url>
     <tag>HEAD</tag>
   </scm>
+  
+  <modules>
+    <module>cagst-test</module>
+    <module>cagst-common-db</module>
+    <module>cagst-common-util</module>
+    <module>cagst-common-domain</module>
+    <module>cagst-common-service</module>
+    <module>cagst-common-web</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -100,15 +109,6 @@
     <openid-version>0.9.5</openid-version>
     <wro4j-version>1.7.0</wro4j-version>
   </properties>
-
-  <modules>
-    <module>cagst-test</module>
-    <module>cagst-common-db</module>
-    <module>cagst-common-util</module>
-    <module>cagst-common-domain</module>
-    <module>cagst-common-service</module>
-    <module>cagst-common-web</module>
-  </modules>
 
   <dependencyManagement>
     <dependencies>
