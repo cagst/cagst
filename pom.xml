@@ -38,8 +38,8 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/cagst/cagst</connection>
-    <developerConnection>scm:git:https://github.com/cagst/cagst</developerConnection>
+    <connection>scm:git:git@github.com:cagst/cagst</connection>
+    <developerConnection>scm:git:git@github.com:cagst/cagst</developerConnection>
     <url>https://github.com/cagst/cagst</url>
     <tag>HEAD</tag>
   </scm>
