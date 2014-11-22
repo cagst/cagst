@@ -100,7 +100,7 @@ public class CGTCodeValueRepositoryJdbcTest {
     Resource schemaLocation = new ClassPathResource("/testDb/schema.sql");
     Resource testDataLocation = new ClassPathResource("/testDb/test_data.sql");
 
-    DataSourceFactory dsFactory = new DataSourceFactory("savedb", schemaLocation, testDataLocation);
+    DataSourceFactory dsFactory = new DataSourceFactory("savedb", new Resource[] {schemaLocation, testDataLocation});
     return dsFactory.getDataSource();
   }
 }

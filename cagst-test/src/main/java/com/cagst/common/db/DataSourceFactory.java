@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import ch.qos.logback.core.db.dialect.HSQLDBDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
@@ -24,17 +25,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * {@link #getObject()}.
  */
 public final class DataSourceFactory implements FactoryBean<DataSource> {
-  private static final Logger logger = LoggerFactory.getLogger(DataSourceFactory.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceFactory.class);
 
   /**
-   * The object created by this factory *
+   * The {@link DataSource} created by this factory.
    */
   private DataSource dataSource;
 
   private final String testDatabaseName;
-  private final Resource schemaLocation;
-  private final Resource alternateSchemaLocation;
-  private final Resource testDataLocation;
+  private final Resource resources[];
 
   /**
    * Creates a new TestDataSourceFactory fully-initialized with what it needs to work. Fully-formed
@@ -43,53 +42,30 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
    *
    * @param testDatabaseName
    *     The name of the test database to create
-   * @param schemaLocation
-   *     The location of the file containing the schema DDL to import to the database
-   * @param testDataLocation
-   *     The location of the file containing the test data to load into the database
    */
-  public DataSourceFactory(final String testDatabaseName,
-                           final Resource schemaLocation,
-                           final Resource testDataLocation) {
-    this(testDatabaseName, schemaLocation, null, testDataLocation);
-  }
-
-  /**
-   * Creates a new TestDataSourceFactory fully-initialized with what it needs to work. Fully-formed
-   * constructors are nice in a programmatic environment, as they result in more concise code and
-   * allow for a class to enforce its required properties.
-   *
-   * @param testDatabaseName
-   *     The name of the test database to create
-   * @param schemaLocation
-   *     The location of the file containing the schema DDL to import to the database
-   * @param alternateSchemaLocation
-   *     The location of the file containing alternate schema DDL (like a view) to import into the database.
-   * @param testDataLocation
-   *     the location of the file containing the test data to load into the database
-   */
-  public DataSourceFactory(final String testDatabaseName,
-                           final Resource schemaLocation,
-                           final Resource alternateSchemaLocation,
-                           final Resource testDataLocation) {
+  public DataSourceFactory(final String testDatabaseName, final Resource resources[]) {
     this.testDatabaseName = testDatabaseName;
-    this.schemaLocation = schemaLocation;
-    this.alternateSchemaLocation = alternateSchemaLocation;
-    this.testDataLocation = testDataLocation;
+    this.resources = resources;
   }
 
+  @Override
   public DataSource getObject() throws Exception {
     return getDataSource();
   }
 
+  @Override
   public Class<?> getObjectType() {
     return DataSource.class;
   }
 
+  @Override
   public boolean isSingleton() {
     return true;
   }
 
+  /**
+   * @return The {@link DataSource} created by this factory.
+   */
   public DataSource getDataSource() {
     if (null == dataSource) {
       initializeDataSource();
@@ -98,9 +74,8 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
     return dataSource;
   }
 
-  /*
-   * Encapsulates the steps involved in initializing the data source. <lu> <li>Create
-   * DataSource</li> <li>Populate DataSource</li> </lu>
+  /**
+   * Encapsulates the steps involved in initializing the data source.
    */
   private void initializeDataSource() {
     // create the in-memory database source first
@@ -111,7 +86,7 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
   }
 
   private DataSource createDataSource() {
-    logger.debug("Creating Test Data Source...");
+    LOGGER.debug("Creating Test Data Source...");
 
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
@@ -127,7 +102,7 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
   }
 
   private void populateDataSource() {
-    logger.debug("Populating Test Data Source...");
+    LOGGER.debug("Populating Test Data Source...");
 
     TestDatabasePopulator populator = new TestDatabasePopulator(dataSource);
     populator.populate();
@@ -157,9 +132,9 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
       try {
         conn = dataSource.getConnection();
 
-        createDatabaseSchema(conn);
-        createAlternateDatabaseSchema(conn);
-        populateTestData(conn);
+        for (Resource resource : resources) {
+          processResource(conn, resource);
+        }
       } catch (SQLException ex) {
         throw new RuntimeException("SQLException occurred", ex);
       } finally {
@@ -173,40 +148,14 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
       }
     }
 
-    private void createDatabaseSchema(final Connection conn) throws SQLException {
-      logger.debug("Creating schema...");
+    private void processResource(final Connection conn, final Resource resource) throws SQLException {
+      LOGGER.debug("Processing resource [{}]", resource.getFilename());
 
       try {
-        String sql = parseSqlIn(schemaLocation);
+        String sql = parseSqlIn(resource);
         executeSql(conn, sql);
       } catch (IOException ex) {
-        throw new RuntimeException("IOException occurred creating database schema", ex);
-      }
-    }
-
-    private void createAlternateDatabaseSchema(final Connection conn) throws SQLException {
-      if (alternateSchemaLocation == null) {
-        return;
-      }
-
-      logger.debug("Creating alternate schema...");
-
-      try {
-        String sql = parseSqlIn(alternateSchemaLocation);
-        executeSql(conn, sql);
-      } catch (IOException ex) {
-        throw new RuntimeException("IOException occurred creating alternate database schema", ex);
-      }
-    }
-
-    private void populateTestData(final Connection conn) throws SQLException {
-      logger.debug("Populating test data...");
-
-      try {
-        String sql = parseSqlIn(testDataLocation);
-        executeSql(conn, sql);
-      } catch (IOException ex) {
-        throw new RuntimeException("IOException occurred populating database with data", ex);
+        throw new RuntimeException("IOException occurred processing [" + resource.getFilename() + "]", ex);
       }
     }
 
