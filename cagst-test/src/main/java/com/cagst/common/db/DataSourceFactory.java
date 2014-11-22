@@ -1,16 +1,10 @@
 package com.cagst.common.db;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
+import javax.sql.DataSource;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,186 +15,228 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 /**
  * A factory that creates a data source fit for use in a system test environment. Creates a simple
  * data source that connects to an in-memory database pre-loaded with test data.
- * 
+ * <p/>
  * This factory returns a fully-initialized DataSource implementation. When the DataSource is
  * returned, callers are guaranteed that the database schema and test data will have been loaded by
  * that time.
- * 
+ * <p/>
  * Is a FactoryBean, for exposing the fully-initialized test DataSource as a Spring bean. See
  * {@link #getObject()}.
  */
 public final class DataSourceFactory implements FactoryBean<DataSource> {
-	private static final Logger logger = LoggerFactory.getLogger(DataSourceFactory.class);
+  private static final Logger logger = LoggerFactory.getLogger(DataSourceFactory.class);
 
-	/** The object created by this factory **/
-	private DataSource dataSource;
+  /**
+   * The object created by this factory *
+   */
+  private DataSource dataSource;
 
-	private final String testDatabaseName;
-	private final Resource schemaLocation;
-	private final Resource testDataLocation;
+  private final String testDatabaseName;
+  private final Resource schemaLocation;
+  private final Resource alternateSchemaLocation;
+  private final Resource testDataLocation;
 
-	/**
-	 * Creates a new TestDataSourceFactory fully-initialized with what it needs to work. Fully-formed
-	 * constructors are nice in a programmatic environment, as they result in more concise code and
-	 * allow for a class to enforce its required properties.
-	 * 
-	 * @param testDatabaseName
-	 *          the name of the test database to create
-	 * @param schemaLocation
-	 *          the location of the file containing the schema DDL to export to the database
-	 * @param testDataLocation
-	 *          the location of the file containing the test data to load into the database
-	 */
-	public DataSourceFactory(final String testDatabaseName, final Resource schemaLocation, final Resource testDataLocation) {
-		this.testDatabaseName = testDatabaseName;
-		this.schemaLocation = schemaLocation;
-		this.testDataLocation = testDataLocation;
-	}
+  /**
+   * Creates a new TestDataSourceFactory fully-initialized with what it needs to work. Fully-formed
+   * constructors are nice in a programmatic environment, as they result in more concise code and
+   * allow for a class to enforce its required properties.
+   *
+   * @param testDatabaseName
+   *    The name of the test database to create
+   * @param schemaLocation
+   *    The location of the file containing the schema DDL to import to the database
+   * @param testDataLocation
+   *    The location of the file containing the test data to load into the database
+   */
+  public DataSourceFactory(final String testDatabaseName,
+                           final Resource schemaLocation,
+                           final Resource testDataLocation) {
+    this(testDatabaseName, schemaLocation, null, testDataLocation);
+  }
 
-	public DataSource getObject() throws Exception {
-		return getDataSource();
-	}
+  /**
+   * Creates a new TestDataSourceFactory fully-initialized with what it needs to work. Fully-formed
+   * constructors are nice in a programmatic environment, as they result in more concise code and
+   * allow for a class to enforce its required properties.
+   *
+   * @param testDatabaseName
+   *    The name of the test database to create
+   * @param schemaLocation
+   *    The location of the file containing the schema DDL to import to the database
+   * @param alternateSchemaLocation
+   *    The location of the file containing alternate schema DDL (like a view) to import into the database.
+   * @param testDataLocation
+   *     the location of the file containing the test data to load into the database
+   */
+  public DataSourceFactory(final String testDatabaseName,
+                           final Resource schemaLocation,
+                           final Resource alternateSchemaLocation,
+                           final Resource testDataLocation) {
+    this.testDatabaseName = testDatabaseName;
+    this.schemaLocation = schemaLocation;
+    this.alternateSchemaLocation = alternateSchemaLocation;
+    this.testDataLocation = testDataLocation;
+  }
 
-	public Class<?> getObjectType() {
-		return DataSource.class;
-	}
+  public DataSource getObject() throws Exception {
+    return getDataSource();
+  }
 
-	public boolean isSingleton() {
-		return true;
-	}
+  public Class<?> getObjectType() {
+    return DataSource.class;
+  }
 
-	public DataSource getDataSource() {
-		if (null == dataSource) {
-			initializeDataSource();
-		}
+  public boolean isSingleton() {
+    return true;
+  }
 
-		return dataSource;
-	}
+  public DataSource getDataSource() {
+    if (null == dataSource) {
+      initializeDataSource();
+    }
 
-	/*
-	 * Encapsulates the steps involved in initializing the data source. <lu> <li>Create
-	 * DataSource</li> <li>Populate DataSource</li> </lu>
-	 */
-	private void initializeDataSource() {
-		// create the in-memory database source first
-		this.dataSource = createDataSource();
+    return dataSource;
+  }
 
-		// now populate the data source
-		populateDataSource();
-	}
+  /*
+   * Encapsulates the steps involved in initializing the data source. <lu> <li>Create
+   * DataSource</li> <li>Populate DataSource</li> </lu>
+   */
+  private void initializeDataSource() {
+    // create the in-memory database source first
+    this.dataSource = createDataSource();
 
-	private DataSource createDataSource() {
-		logger.debug("Creating Test Data Source...");
+    // now populate the data source
+    populateDataSource();
+  }
 
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+  private DataSource createDataSource() {
+    logger.debug("Creating Test Data Source...");
 
-		// use the HSQLDB JDBC driver
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-		// have it create an in-memory database
-		dataSource.setUrl("jdbc:hsqldb:mem:" + testDatabaseName);
-		dataSource.setUsername("sa");
-		dataSource.setPassword("");
+    // use the HSQLDB JDBC driver
+    dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
 
-		return dataSource;
-	}
+    // have it create an in-memory database
+    dataSource.setUrl("jdbc:hsqldb:mem:" + testDatabaseName);
+    dataSource.setUsername("sa");
+    dataSource.setPassword("");
 
-	private void populateDataSource() {
-		logger.debug("Populating Test Data Source...");
+    return dataSource;
+  }
 
-		TestDatabasePopulator populator = new TestDatabasePopulator(dataSource);
-		populator.populate();
-	}
+  private void populateDataSource() {
+    logger.debug("Populating Test Data Source...");
 
-	/**
-	 * Populates an in-memory data source with test data.
-	 * 
-	 * @author Craig Gaskill
-	 * 
-	 */
-	private final class TestDatabasePopulator {
-		private final DataSource dataSource;
+    TestDatabasePopulator populator = new TestDatabasePopulator(dataSource);
+    populator.populate();
+  }
 
-		/**
-		 * Primary Constructor
-		 * 
-		 * @param dataSource
-		 *          {@link DataSource} to populate data with.
-		 */
-		public TestDatabasePopulator(final DataSource dataSource) {
-			this.dataSource = dataSource;
-		}
+  /**
+   * Populates an in-memory data source with test data.
+   *
+   * @author Craig Gaskill
+   */
+  private final class TestDatabasePopulator {
+    private final DataSource dataSource;
 
-		public void populate() {
-			Connection conn = null;
+    /**
+     * Primary Constructor
+     *
+     * @param dataSource
+     *     {@link DataSource} to populate data with.
+     */
+    public TestDatabasePopulator(final DataSource dataSource) {
+      this.dataSource = dataSource;
+    }
 
-			try {
-				conn = dataSource.getConnection();
+    public void populate() {
+      Connection conn = null;
 
-				createDatabaseSchema(conn);
-				populateTestData(conn);
-			} catch (SQLException ex) {
-				throw new RuntimeException("SQLException occurred", ex);
-			} finally {
-				if (null != conn) {
-					try {
-						conn.close();
-					} catch (SQLException ex) {
-						throw new RuntimeException("SQLException occurred trying to close the connection", ex);
-					}
-				}
-			}
-		}
+      try {
+        conn = dataSource.getConnection();
 
-		private void createDatabaseSchema(final Connection conn) throws SQLException {
-			logger.debug("Creating schema...");
+        createDatabaseSchema(conn);
+        createAlternateDatabaseSchema(conn);
+        populateTestData(conn);
+      } catch (SQLException ex) {
+        throw new RuntimeException("SQLException occurred", ex);
+      } finally {
+        if (null != conn) {
+          try {
+            conn.close();
+          } catch (SQLException ex) {
+            // ignore, just trying to close things down.
+          }
+        }
+      }
+    }
 
-			try {
-				String sql = parseSqlIn(schemaLocation);
-				executeSql(conn, sql);
-			} catch (IOException ex) {
-				throw new RuntimeException("IOException occurred creating database schema", ex);
-			}
-		}
+    private void createDatabaseSchema(final Connection conn) throws SQLException {
+      logger.debug("Creating schema...");
 
-		private void populateTestData(final Connection conn) throws SQLException {
-			logger.debug("Populating test data...");
+      try {
+        String sql = parseSqlIn(schemaLocation);
+        executeSql(conn, sql);
+      } catch (IOException ex) {
+        throw new RuntimeException("IOException occurred creating database schema", ex);
+      }
+    }
 
-			try {
-				String sql = parseSqlIn(testDataLocation);
-				executeSql(conn, sql);
-			} catch (IOException ex) {
-				throw new RuntimeException("IOException occurred populating database with data", ex);
-			}
-		}
+    private void createAlternateDatabaseSchema(final Connection conn) throws SQLException {
+      if (alternateSchemaLocation == null) {
+        return;
+      }
 
-		private String parseSqlIn(final Resource resource) throws IOException {
-			InputStream is = null;
+      logger.debug("Creating alternate schema...");
 
-			try {
-				is = resource.getInputStream();
+      try {
+        String sql = parseSqlIn(alternateSchemaLocation);
+        executeSql(conn, sql);
+      } catch (IOException ex) {
+        throw new RuntimeException("IOException occurred creating alternate database schema", ex);
+      }
+    }
 
-				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-				StringWriter sw = new StringWriter();
-				BufferedWriter writer = new BufferedWriter(sw);
+    private void populateTestData(final Connection conn) throws SQLException {
+      logger.debug("Populating test data...");
 
-				String line = null;
-				while ((line = reader.readLine()) != null) {
-					writer.write(line);
-				}
-				writer.flush();
+      try {
+        String sql = parseSqlIn(testDataLocation);
+        executeSql(conn, sql);
+      } catch (IOException ex) {
+        throw new RuntimeException("IOException occurred populating database with data", ex);
+      }
+    }
 
-				return sw.toString();
-			} finally {
-				if (null != is) {
-					is.close();
-				}
-			}
-		}
+    private String parseSqlIn(final Resource resource) throws IOException {
+      InputStream is = null;
 
-		private void executeSql(final Connection conn, final String sql) throws SQLException {
-			Statement stmt = conn.createStatement();
-			stmt.execute(sql);
-		}
-	}
+      try {
+        is = resource.getInputStream();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringWriter sw = new StringWriter();
+        BufferedWriter writer = new BufferedWriter(sw);
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+          writer.write(line);
+        }
+        writer.flush();
+
+        return sw.toString();
+      } finally {
+        if (null != is) {
+          is.close();
+        }
+      }
+    }
+
+    private void executeSql(final Connection conn, final String sql) throws SQLException {
+      Statement stmt = conn.createStatement();
+      stmt.execute(sql);
+    }
+  }
 }
