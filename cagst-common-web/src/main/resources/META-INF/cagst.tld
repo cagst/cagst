@@ -4,40 +4,42 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
         version="2.0">
 
-	<description>CAGST JSP Tag Library</description>
-	<tlib-version>3.0</tlib-version>
-	<short-name>cagst</short-name>
-	<uri>http://www.cagst.com/tags</uri>
-	
-	<tag>
-		<description>
-			Retrieves the static resource with the given code.
-		</description>
-		<name>static</name>
-		<tag-class>com.cagst.common.web.servlet.tags.StaticResourceTag</tag-class>
-		<body-content>JSP</body-content>
-		<attribute>
-			<description>
-				The key to use when looking up the message.
-			</description>
-			<name>key</name>
-			<required>true</required>
-		</attribute>
-		<attribute>
-			<description>
-			The string to use when binding the result to the page,
-			request, session or application scope. If not specified, the result
-			gets outputted to the writer (i.e. typically directly to the JSP).</description>
-			<name>var</name>
-			<required>false</required>
-		</attribute>
-		<attribute>
-			<description>
-			The scope to use when exporting the result to a variable.
-			This attribute is only used when var is also set. Possible values are
-			page, request, session and application.</description>
-			<name>scope</name>
-			<required>false</required>
-		</attribute>
-	</tag>
+  <description>CAGST JSP Tag Library</description>
+  <tlib-version>3.0</tlib-version>
+  <short-name>cagst</short-name>
+  <uri>http://www.cagst.com/tags</uri>
+
+  <tag>
+    <description>
+      Retrieves the static resource with the given code.
+    </description>
+    <name>static</name>
+    <tag-class>com.cagst.common.web.servlet.tags.StaticResourceTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <description>
+        The key to use when looking up the message.
+      </description>
+      <name>key</name>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <description>
+        The string to use when binding the result to the page,
+        request, session or application scope. If not specified, the result
+        gets outputted to the writer (i.e. typically directly to the JSP).
+      </description>
+      <name>var</name>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <description>
+        The scope to use when exporting the result to a variable.
+        This attribute is only used when var is also set. Possible values are
+        page, request, session and application.
+      </description>
+      <name>scope</name>
+      <required>false</required>
+    </attribute>
+  </tag>
 </taglib>

@@ -42,11 +42,11 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
    * allow for a class to enforce its required properties.
    *
    * @param testDatabaseName
-   *    The name of the test database to create
+   *     The name of the test database to create
    * @param schemaLocation
-   *    The location of the file containing the schema DDL to import to the database
+   *     The location of the file containing the schema DDL to import to the database
    * @param testDataLocation
-   *    The location of the file containing the test data to load into the database
+   *     The location of the file containing the test data to load into the database
    */
   public DataSourceFactory(final String testDatabaseName,
                            final Resource schemaLocation,
@@ -60,11 +60,11 @@ public final class DataSourceFactory implements FactoryBean<DataSource> {
    * allow for a class to enforce its required properties.
    *
    * @param testDatabaseName
-   *    The name of the test database to create
+   *     The name of the test database to create
    * @param schemaLocation
-   *    The location of the file containing the schema DDL to import to the database
+   *     The location of the file containing the schema DDL to import to the database
    * @param alternateSchemaLocation
-   *    The location of the file containing alternate schema DDL (like a view) to import into the database.
+   *     The location of the file containing alternate schema DDL (like a view) to import into the database.
    * @param testDataLocation
    *     the location of the file containing the test data to load into the database
    */
