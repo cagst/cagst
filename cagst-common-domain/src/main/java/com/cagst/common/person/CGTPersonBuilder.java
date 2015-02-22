@@ -1,8 +1,5 @@
 package com.cagst.common.person;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 import com.cagst.common.CGTObjectBuilder;
@@ -93,8 +90,6 @@ public class CGTPersonBuilder extends CGTObjectBuilder {
    *
    * @return {@link String} the Persons last name.
    */
-  @NotNull
-  @Size(min = 1, max = 100)
   public String getLastName() {
     return name_last;
   }
@@ -114,8 +109,6 @@ public class CGTPersonBuilder extends CGTObjectBuilder {
    *
    * @return {@link String} the Persons first name.
    */
-  @NotNull
-  @Size(min = 1, max = 100)
   public String getFirstName() {
     return name_first;
   }
@@ -135,8 +128,6 @@ public class CGTPersonBuilder extends CGTObjectBuilder {
    *
    * @return {@link String} the Persons middle name.
    */
-
-  @Size(max = 100)
   public String getMiddleName() {
     return name_middle;
   }
@@ -156,7 +147,6 @@ public class CGTPersonBuilder extends CGTObjectBuilder {
    *
    * @return The {@link DateTime} of Birth for the Person.
    */
-  @Past
   public DateTime getDob() {
     return dob;
   }

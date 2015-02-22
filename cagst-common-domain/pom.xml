@@ -70,14 +70,6 @@
       <scope>compile</scope>
     </dependency>
 
-    <!-- Hibernate Validation Dependencies -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-
     <!-- Testing Dependencies -->
 
     <!-- JUnit Dependencies -->

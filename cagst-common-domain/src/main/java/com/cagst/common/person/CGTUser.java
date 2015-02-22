@@ -118,7 +118,9 @@ public class CGTUser extends CGTPerson implements UserDetails {
       return true;
     }
 
-    return (comparator.compare(expire_dt_tm, new DateTime()) > 0);
+    // if the current date is after the expire_dt_tm then the account IS expired
+    // so we invert that result to return if the account is NOT expired (NonExpired)
+    return !DateTime.now().isAfter(expire_dt_tm);
   }
 
   @Override
