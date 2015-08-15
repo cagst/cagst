@@ -18,111 +18,80 @@
     <dependency>
       <groupId>com.cagst</groupId>
       <artifactId>cagst-common-domain</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- CAGST Common Service Dependencies -->
     <dependency>
       <groupId>com.cagst</groupId>
       <artifactId>cagst-common-service</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- Apache Commons Dependencies -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Joda Time Dependencies -->
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Log 4J Dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>integration</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <!-- Logback Dependencies -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Servlet Dependencies -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <type>jar</type>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>javax.servlet.jsp-api</artifactId>
-      <type>jar</type>
-      <scope>provided</scope>
     </dependency>
 
     <!-- Spring Security Core Dependencies -->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-core</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Spring Security Web Dependencies -->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Spring Web MVC Dependencies -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
-    <!-- Servlet Dependencies -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <type>jar</type>
-      <scope>provided</scope>
-    </dependency>
-
+    <!--                   -->
     <!-- Test Dependencies -->
+    <!--                   -->
 
     <!-- JUnit Dependencies -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <type>jar</type>
       <scope>test</scope>
     </dependency>
   </dependencies>

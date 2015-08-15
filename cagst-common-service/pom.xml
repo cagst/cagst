@@ -18,64 +18,48 @@
     <dependency>
       <groupId>com.cagst</groupId>
       <artifactId>cagst-common-domain</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- CAGST Common Database Dependencies -->
     <dependency>
       <groupId>com.cagst</groupId>
       <artifactId>cagst-common-db</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- Apache Commons Dependencies -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Joda Time Dependencies -->
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Log 4J Dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>integration</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <!-- Logback Dependencies -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Spring Dependencies -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Test Dependencies -->
@@ -84,7 +68,6 @@
     <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <type>jar</type>
       <scope>test</scope>
     </dependency>
 
@@ -92,8 +75,7 @@
     <dependency>
       <groupId>com.cagst</groupId>
       <artifactId>cagst-test</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
-      <type>jar</type>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -101,7 +83,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <type>jar</type>
       <scope>test</scope>
     </dependency>
 
@@ -109,7 +90,6 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <type>jar</type>
       <scope>test</scope>
     </dependency>
   </dependencies>
