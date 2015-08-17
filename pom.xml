@@ -1,13 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.cagst</groupId>
   <artifactId>cagst-parent</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <name>CAGST Parent</name>
   <description>This defines the basic requirements for CAGST Solutions.</description>
   <inceptionYear>2012</inceptionYear>
@@ -42,7 +39,7 @@
     <connection>scm:git:https://github.com/cagst/cagst</connection>
     <developerConnection>scm:git:https://github.com/cagst/cagst</developerConnection>
     <url>https://github.com/cagst/cagst</url>
-    <tag>HEAD</tag>
+    <tag>1.2</tag>
   </scm>
 
   <modules>
