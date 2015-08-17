@@ -56,7 +56,6 @@
     <jdk.version>1.6</jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <site.url>scp://repo.rele</site.url>
 
     <!-- Common Utilities -->
     <commons-lang-version>3.1</commons-lang-version>
@@ -434,6 +433,12 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>3.4</version>
         <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.9</version>
+          </dependency>
+
           <!-- allows us to use markdown instead of apt -->
           <dependency>
             <groupId>org.apache.maven.doxia</groupId>
@@ -441,9 +446,6 @@
             <version>1.6</version>
           </dependency>
         </dependencies>
-        <configuration>
-          <stagingSiteURL>${site.url}</stagingSiteURL>
-        </configuration>
       </plugin>
 
       <!-- Maven JavaDoc Plugin Settings -->
